@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-@Entity(name = "Breed Data")
+@Entity(name = "breed_data")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -31,6 +31,9 @@ public class BreedData {
     @Column(name = "breed_group")
     private String breed_group;
 
+    @Column(name = "height")
+    private String height;
+
     @Column(name = "avg_height_cm")
     private String avg_height_cm;
 
@@ -49,8 +52,8 @@ public class BreedData {
     @Column(name = "adaptability")
     private String adaptability;
 
-    @Column(name = "apt_living")
-    private String apt_living;
+    @Column(name = "adapts_well_to_apartment_living")
+    private String adapts_well_to_apartment_living;
 
     @Column(name = "good_for_novice_owners")
     private String good_for_novice_owners ;
@@ -70,8 +73,8 @@ public class BreedData {
     @Column(name = "friendliness")
     private String friendliness;
 
-    @Column(name = "affec_with_fam")
-    private String affec_with_fam;
+    @Column(name = "affection_with_family")
+    private String affection_with_fam;
 
     @Column(name = "kid_friendly")
     private String kid_friendly;
@@ -98,7 +101,7 @@ public class BreedData {
     private String general_health;
 
     @Column(name = "potential_for_weight_gain")
-    private String weight_gain;
+    private String potential_for_weight_gain;
 
     @Column(name = "size")
     private String size;
@@ -139,6 +142,11 @@ public class BreedData {
     @Column(name = "playfulness")
     private String playfulness;
 
+    public BreedData() {};
+
     public BreedData(String breed_name, String dog_size, String breed_group, String avg_height_cm, String avg_weight_kg, String avg_life_span_years, String shedding, String intelligence, String prey_drive, String energy_lvl, String exercise_needs) {
+    }
+
+    public BreedData(Long id, String breedName, String dog_size, String breedGroup, String avg_height_cm, String avg_weight_kg, String avg_life_span_years, String shedding, String intelligence, String prey_drive, String energy_lvl, String exercise_needs) {
     }
 }
