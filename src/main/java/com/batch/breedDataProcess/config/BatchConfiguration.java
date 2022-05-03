@@ -1,9 +1,9 @@
 package com.batch.breedDataProcess.config;
 
 
-import com.batch.breedDataProcess.domain.BtcData;
-import com.batch.breedDataProcess.processor.BtcDataProcessor;
-import com.batch.breedDataProcess.repositories.BtcDataRepository;
+import com.batch.breedDataProcess.domain.BreedData;
+import com.batch.breedDataProcess.processor.BreedDataProcessor;
+import com.batch.breedDataProcess.repositories.BreedDataRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -37,21 +37,25 @@ public class BatchConfiguration {
 
     @Autowired
     @Lazy
-    public BtcDataRepository btcDataRepository;
+    public BreedDataRepository breedDataRepository;
 
     @Autowired
     DataSource dataSource;
 
-    // Reads the data.csv file and creates instances of the btcData entity for each from the .csv file.
+    // Reads the data.csv file and creates instances of entity for each from the .csv file.
     @Bean
-    public FlatFileItemReader<BtcData> reader() {
-        return new FlatFileItemReaderBuilder<BtcData>()
+    public FlatFileItemReader<BreedData> reader() {
+        return new FlatFileItemReaderBuilder<BreedData>()
                 .name("btcDataFileReader")
                 .resource(new ClassPathResource("/data/breedData.csv"))
                 .delimited()
-                .names(new String[]{"unix_timestamp", "datetime", "open", "high", "low", "close", "volume_btc", "volume_currency", "weighted_price"})
+                .names(new String[]{"breed_name", "description_link", "dog_size", "breed_group", "height", "avg_height_cm", "weight", "avg_weight_kg", "life_span",
+                        "avg_life_span_years", "adaptability", "adapts_well_to_apartment_living", "good_for_novice_owners", "sensitivity_lvl", "tolerates_alone",
+                        "tolerates_cold", "tolerates_heat", "friendliness", "affection_with_family", "kid_friendly", "dog_friendly", "friendly_to_strangers",
+                        "health_grooming_needs", "shedding", "drooling_potential", "ease_of_grooming", "general_health", "potential_for_weight_gain", "size", "trainability",
+                        "ease_of_training", "intelligence", "use_of_mouth", "prey_drive", "barkiness", "wanderlust", "physical_needs", "energy_lvl", "intensity", "exercise_needs", "playfulness"})
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
-                    setTargetType(BtcData.class);
+                    setTargetType(BreedData.class);
                 }})
                 .build();
     }
@@ -59,30 +63,30 @@ public class BatchConfiguration {
 
     // Creates the Writer, configuring the repository and the method that will be used to save the data into the database
     @Bean
-    public RepositoryItemWriter<BtcData> writer() {
-        RepositoryItemWriter<BtcData> iwriter = new RepositoryItemWriter<>();
-        JdbcBatchItemWriter<BtcData> itemWriter = new JdbcBatchItemWriter<>();
-        iwriter.setRepository(btcDataRepository);
-        itemWriter.setSql("INSERT INTO btc_data  VALUES (:id, :unix_timestamp, :datetime, :open, :high, :low, :close, :volume_btc, :volume_currency, :weighted_price)");
+    public RepositoryItemWriter<BreedData> writer() {
+        RepositoryItemWriter<BreedData> iwriter = new RepositoryItemWriter<>();
+        JdbcBatchItemWriter<BreedData> itemWriter = new JdbcBatchItemWriter<>();
+        iwriter.setRepository(breedDataRepository);
+        itemWriter.setSql("INSERT INTO breed_data  VALUES (:id :breed_name, :dog_size, :breed_group, :avg_height_cm, :avg_weight_kg, :avg_life_span_years, :shedding, :intelligence, :prey_drive, :energy_lvl, :exercise_needs)");
 
         iwriter.setMethodName("save");
         return iwriter;
     }
 
 
-    // Creates an instance of BtcDataProcessor that converts one data form to another. In our case the data form is maintained.
+    // Creates an instance of DataProcessor that converts one data form to another. In our case the data form is maintained.
     @Bean
-    public BtcDataProcessor processor() {
-        return new BtcDataProcessor();
+    public BreedDataProcessor processor() {
+        return new BreedDataProcessor();
     }
 
     // Batch jobs are built from steps. A step contains the reader, processor and the writer.
     @Bean
-    public Step step1(ItemReader<BtcData> itemReader, ItemWriter<BtcData> itemWriter)
+    public Step step1(ItemReader<BreedData> itemReader, ItemWriter<BreedData> itemWriter)
             throws Exception {
 
         return this.stepBuilderFactory.get("step1")
-                .<BtcData, BtcData>chunk(5)
+                .<BreedData, BreedData>chunk(5)
                 .reader(itemReader)
                 .processor(processor())
                 .writer(itemWriter)
@@ -91,10 +95,10 @@ public class BatchConfiguration {
 
     // Executes the job, saving the data from .csv file into the database.
     @Bean
-    public Job btcDataJob(JobCompletionListener listener, Step step1)
+    public Job BreedDataJob(JobCompletionListener listener, Step step1)
             throws Exception {
 
-        return this.jobBuilderFactory.get("btc data job").incrementer(new RunIdIncrementer())
+        return this.jobBuilderFactory.get("process job").incrementer(new RunIdIncrementer())
                 .listener(listener).start(step1).build();
     }
 }

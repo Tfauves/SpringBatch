@@ -21,7 +21,6 @@ public class BreedFieldSetMapper implements FieldSetMapper<BreedData> {
                 fieldSet.readString("energy_lvl"),
                 fieldSet.readString("exercise_needs")
 
-
                 );
     }
 }
