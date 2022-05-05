@@ -67,7 +67,7 @@ public class BatchConfiguration {
         RepositoryItemWriter<BreedData> iwriter = new RepositoryItemWriter<>();
         JdbcBatchItemWriter<BreedData> itemWriter = new JdbcBatchItemWriter<>();
         iwriter.setRepository(breedDataRepository);
-        itemWriter.setSql("INSERT INTO breed_data  VALUES (:id :breed_name, :dog_size, :breed_group, :avg_height_cm, :avg_weight_kg, :avg_life_span_years, :shedding, :intelligence, :prey_drive, :energy_lvl, :exercise_needs)");
+        itemWriter.setSql("INSERT INTO breed_data  VALUES (:id :breed_name, :description_link :dog_size, :breed_group, :height, :avg_height_cm, :weight, :avg_weight_kg, :life_span, :avg_life_span_years, :adaptability, :adapts_well_to_apartment_living, :good_for_novice_owners, :sensitivity_lvl, :tolerates_alone, :tolerates_cold, :tolerates_heat, :friendliness, :affection_with_family, :kid_friendly, :dog_friendly, :friendly_to_strangers, :health_grooming_needs, :shedding, :drooling_potential, :ease_of_grooming, :general_health, :potential_for_weight_gain, :size, :trainability, :ease_of_training, :intelligence, :use_of_mouth, :prey_drive, :barkiness, :wanderlust, :physical_needs, :energy_lvl, :intensity, :exercise_needs, :playfulness )");
 
         iwriter.setMethodName("save");
         return iwriter;
