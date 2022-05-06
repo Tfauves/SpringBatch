@@ -28,7 +28,7 @@ public class JobCompletionListener extends JobExecutionListenerSupport {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("!!! JOB COMPLETED! verify the results");
            breedDataRepository.findAll()
-                    .forEach(btcData -> log.info("Found (" + btcData + ">) in the database.") );
+                    .forEach(breedData -> log.info("Found (<" + breedData + ">) in the database.") );
         }
     }
 }
