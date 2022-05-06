@@ -46,8 +46,9 @@ public class BatchConfiguration {
     @Bean
     public FlatFileItemReader<BreedData> reader() {
         return new FlatFileItemReaderBuilder<BreedData>()
-                .name("btcDataFileReader")
+                .name("breedDataFileReader")
                 .resource(new ClassPathResource("/data/breedData.csv"))
+                .linesToSkip(1)
                 .delimited()
                 .names(new String[]{"breed_name", "description_link", "dog_size", "breed_group", "height", "avg_height_cm", "weight", "avg_weight_kg", "life_span",
                         "avg_life_span_years", "adaptability", "adapts_well_to_apartment_living", "good_for_novice_owners", "sensitivity_lvl", "tolerates_alone",
@@ -64,13 +65,13 @@ public class BatchConfiguration {
     // Creates the Writer, configuring the repository and the method that will be used to save the data into the database
     @Bean
     public RepositoryItemWriter<BreedData> writer() {
-        RepositoryItemWriter<BreedData> iwriter = new RepositoryItemWriter<>();
+        RepositoryItemWriter<BreedData> iWriter = new RepositoryItemWriter<>();
         JdbcBatchItemWriter<BreedData> itemWriter = new JdbcBatchItemWriter<>();
-        iwriter.setRepository(breedDataRepository);
+        iWriter.setRepository(breedDataRepository);
         itemWriter.setSql("INSERT INTO breed_data  VALUES (:id :breed_name, :description_link :dog_size, :breed_group, :height, :avg_height_cm, :weight, :avg_weight_kg, :life_span, :avg_life_span_years, :adaptability, :adapts_well_to_apartment_living, :good_for_novice_owners, :sensitivity_lvl, :tolerates_alone, :tolerates_cold, :tolerates_heat, :friendliness, :affection_with_family, :kid_friendly, :dog_friendly, :friendly_to_strangers, :health_grooming_needs, :shedding, :drooling_potential, :ease_of_grooming, :general_health, :potential_for_weight_gain, :size, :trainability, :ease_of_training, :intelligence, :use_of_mouth, :prey_drive, :barkiness, :wanderlust, :physical_needs, :energy_lvl, :intensity, :exercise_needs, :playfulness )");
 
-        iwriter.setMethodName("save");
-        return iwriter;
+        iWriter.setMethodName("save");
+        return iWriter;
     }
 
 

@@ -3,6 +3,7 @@ package com.batch.breedDataProcess.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class BreedData {
     @Id
@@ -142,11 +144,5 @@ public class BreedData {
     @Column(name = "playfulness")
     private String playfulness;
 
-    public BreedData() {};
 
-    public BreedData(String breed_name, String dog_size, String breed_group, String avg_height_cm, String avg_weight_kg, String avg_life_span_years, String shedding, String intelligence, String prey_drive, String energy_lvl, String exercise_needs) {
-    }
-
-    public BreedData(Long id, String breedName, String dog_size, String breedGroup, String avg_height_cm, String avg_weight_kg, String avg_life_span_years, String shedding, String intelligence, String prey_drive, String energy_lvl, String exercise_needs) {
-    }
 }
