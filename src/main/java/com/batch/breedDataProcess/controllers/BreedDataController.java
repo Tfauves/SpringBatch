@@ -3,10 +3,9 @@ package com.batch.breedDataProcess.controllers;
 import com.batch.breedDataProcess.domain.BreedData;
 import com.batch.breedDataProcess.repositories.BreedDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,6 +19,11 @@ public class BreedDataController {
     @GetMapping
     public List<BreedData> getAllBreedNames() {
         return repository.findAll();
+    }
+    
+    @GetMapping("/{id}")
+    public @ResponseBody BreedData getById(@PathVariable Long id) {
+        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
 
