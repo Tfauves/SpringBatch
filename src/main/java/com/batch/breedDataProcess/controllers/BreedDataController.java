@@ -26,6 +26,11 @@ public class BreedDataController {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/name/{breedName}")
+    public @ResponseBody List<BreedData> findAllByName(@PathVariable String breedName) {
+        return repository.findAllByBreed_name(breedName);
+    }
+
 
 
 }
